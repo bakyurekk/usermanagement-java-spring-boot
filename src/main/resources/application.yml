@@ -1,0 +1,31 @@
+jwt:
+  secret: '8@zPitdXRnv=>r]F`|#6p.!jam^xlGdM>x&HF;tq4ad]i~4MM}A}KL;C]:2zoKE'
+
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    password:
+    username: root
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  h2:
+    console:
+      enabled: true
+      path: /h2-ui
+
+
+
