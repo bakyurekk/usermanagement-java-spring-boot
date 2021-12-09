@@ -1,10 +1,7 @@
 package com.usermanagment.resource;
 
 
-import com.usermanagment.domain.User;
-import com.usermanagment.exception.domain.EmailExistException;
-import com.usermanagment.exception.domain.EmailNotFoundException;
-import com.usermanagment.exception.domain.ExceptionHandling;
+import com.usermanagment.exception.ExceptionHandling;
 import com.usermanagment.exception.domain.UserNotFoundExcepiton;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
