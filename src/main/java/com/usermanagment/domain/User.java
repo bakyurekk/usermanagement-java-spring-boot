@@ -49,8 +49,8 @@ public class User implements Serializable {
     @Column(name="join_date")
     private Date joinDate;
 
-    @Column(name="roles")
-    private String[] roles;
+    @Column(name="role")
+    private String role;
 
     @Column(name="authorities")
     private String[] authorities;
