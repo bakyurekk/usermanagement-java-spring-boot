@@ -38,7 +38,7 @@ public class ExceptionHandling {
     public static final String NOT_ENOUGH_PERMISSION        = "You do not have enough permission";
 
     @ExceptionHandler(DisabledException.class)
-    public ResponseEntity<HttpResponse> acountDisabledExcepiton(){
+    public ResponseEntity<HttpResponse> accountDisabledException(){
         return  createHttpResponse(BAD_REQUEST, ACCOUNT_DISABLED);
     }
 
@@ -59,12 +59,12 @@ public class ExceptionHandling {
 
 
     @ExceptionHandler(TokenExpiredException.class)
-    public ResponseEntity<HttpResponse> tokenExpiredExcepiton(TokenExpiredException exception){
+    public ResponseEntity<HttpResponse> tokenExpiredException(TokenExpiredException exception){
         return  createHttpResponse(UNAUTHORIZED,exception.getMessage().toUpperCase());
     }
 
     @ExceptionHandler(EmailExistException.class)
-    public ResponseEntity<HttpResponse> emailExistExcepiton(EmailExistException exception){
+    public ResponseEntity<HttpResponse> emailExistException(EmailExistException exception){
         return  createHttpResponse(BAD_REQUEST,exception.getMessage());
     }
 
@@ -79,7 +79,7 @@ public class ExceptionHandling {
     }
 
     @ExceptionHandler(UserNotFoundExcepiton.class)
-    public ResponseEntity<HttpResponse> userNotFoundExcepiton(UserNotFoundExcepiton exception){
+    public ResponseEntity<HttpResponse> userNotFoundException(UserNotFoundExcepiton exception){
         return  createHttpResponse(BAD_REQUEST,exception.getMessage());
     }
     @ExceptionHandler(NoHandlerFoundException.class)
