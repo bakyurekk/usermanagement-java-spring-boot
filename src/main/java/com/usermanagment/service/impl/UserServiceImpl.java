@@ -6,6 +6,7 @@ import com.usermanagment.exception.domain.EmailExistException;
 import com.usermanagment.exception.domain.UserNotFoundExcepiton;
 import com.usermanagment.exception.domain.UsernameExistException;
 import com.usermanagment.repository.UserRepository;
+import com.usermanagment.service.LoginAttemptService;
 import com.usermanagment.service.UserService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static com.usermanagment.constant.UserImplConstant.*;
 import static com.usermanagment.enumeration.Role.*;
@@ -34,10 +36,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final LoginAttemptService loginAttemptService;
 
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, LoginAttemptService loginAttemptService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.loginAttemptService = loginAttemptService;
     }
 
     @Override
@@ -47,12 +51,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             LOGGER.error(NO_USER_FOUND_BY_USERNAME + username);
             throw new UsernameNotFoundException(NO_USER_FOUND_BY_USERNAME + username);
         }else{
+            validateLoginAttempt(user);
             user.setLastLoginDateDisplay(user.getLastLoginDate());
             user.setLastLoginDate(new Date());
             userRepository.save(user);
             UserPrincipal userPrincipal = new UserPrincipal(user);
             LOGGER.info(FOUND_USER_BY_USERNAME + username);
             return userPrincipal;
+        }
+    }
+
+    private void validateLoginAttempt(User user) {
+        if (user.isNotLocked()){
+            if (loginAttemptService.hasExceededMaxAttempts(user.getUsername())){
+                user.setNotLocked(false);
+            }else {
+                user.setNotLocked(true);
+            }
+        }else {
+            loginAttemptService.evictUserFromLoginAttemptCache(user.getUsername());
         }
     }
 
