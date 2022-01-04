@@ -11,6 +11,7 @@ import com.usermanagement.exception.domain.UserNotFoundExcepiton;
 import com.usermanagement.exception.domain.UsernameExistException;
 import com.usermanagement.service.UserService;
 import com.usermanagement.utility.JWTTokenProvider;
+import org.checkerframework.checker.index.qual.PolyUpperBound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,11 +26,17 @@ import javax.mail.MessagingException;
 import javax.websocket.server.PathParam;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Locale;
 
+import static com.usermanagement.constant.FileConstant.FORWARD_SLASH;
+import static com.usermanagement.constant.FileConstant.USER_FOLDER;
 import static com.usermanagement.constant.SecurityConstant.*;
 import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
+import static org.springframework.http.MediaType.IMAGE_PNG_VALUE;
 
 @RestController
 @RequestMapping(path = {"/", "/user"})
@@ -125,6 +132,10 @@ public class UserResource extends ExceptionHandling {
         return new ResponseEntity<>(user, OK);
     }
 
+    @GetMapping(path = "/image/{username}/{fileName}", produces = {IMAGE_JPEG_VALUE})
+    public byte[] getProfileImage(@PathVariable("username") String username, @PathVariable String fileName) throws IOException {
+        return Files.readAllBytes(Paths.get(USER_FOLDER + username + FORWARD_SLASH + fileName));
+    }
 
     private ResponseEntity<HttpResponse> response(HttpStatus httpStatus, String message) {
         return new ResponseEntity<HttpResponse>(new HttpResponse(httpStatus.value(), httpStatus, httpStatus.getReasonPhrase().toUpperCase(), message.toUpperCase()), httpStatus);
