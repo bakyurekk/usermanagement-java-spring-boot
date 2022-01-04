@@ -79,10 +79,10 @@ public class UserResource extends ExceptionHandling {
                                            @RequestParam("email") String email,
                                            @RequestParam("role") String role,
                                            @RequestParam("isActive") String isActive,
-                                           @RequestParam("isNoneLocked") String isNoneLocked,
+                                           @RequestParam("isNonLocked") String isNonLocked,
                                            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) throws EmailExistException, UserNotFoundExcepiton, IOException, UsernameExistException {
 
-        User newUser = userService.addNewUser(firstname, lastname, username, email, role, Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNoneLocked), profileImage);
+        User newUser = userService.addNewUser(firstname, lastname, username, email, role, Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked), profileImage);
 
         return new ResponseEntity<>(newUser, OK);
     }
@@ -95,10 +95,10 @@ public class UserResource extends ExceptionHandling {
                                            @RequestParam("email") String email,
                                            @RequestParam("role") String role,
                                            @RequestParam("isActive") String isActive,
-                                           @RequestParam("isNoneLocked") String isNoneLocked,
+                                           @RequestParam("isNonLocked") String isNonLocked,
                                            @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) throws EmailExistException, UserNotFoundExcepiton, IOException, UsernameExistException {
 
-        User updatedUser = userService.updateUser(currentUsername, firstname, lastname, username, email, role, Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNoneLocked), profileImage);
+        User updatedUser = userService.updateUser(currentUsername, firstname, lastname, username, email, role, Boolean.parseBoolean(isActive), Boolean.parseBoolean(isNonLocked), profileImage);
 
         return new ResponseEntity<>(updatedUser, OK);
     }
