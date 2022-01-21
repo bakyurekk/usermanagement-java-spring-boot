@@ -2,7 +2,7 @@ jwt:
   secret: '8@zPitdXRnv=>r]F`|#6p.!jam^xlGdM>x&HF;tq4ad]i~4MM}A}KL;C]:2zoKE'
 
 server:
-  port: 8081
+  port: 8084
 
 spring:
   datasource:

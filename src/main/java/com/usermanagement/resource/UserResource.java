@@ -120,7 +120,7 @@ public class UserResource extends ExceptionHandling {
         userService.resetPassword(email);
         return response(OK, EMAIL_SENT + email);
     }
-    @DeleteMapping("/deleted/{id}")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyAuthority('user:delete')")
     public ResponseEntity<HttpResponse> deleteUser(@PathVariable("id") long id){
         userService.deleteUser(id);
